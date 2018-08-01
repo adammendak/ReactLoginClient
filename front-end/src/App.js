@@ -7,7 +7,8 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            authToken: false
+            isAuthenticated: false,
+            tokenValue: "dupa"
         };
     }
 
@@ -15,7 +16,7 @@ class App extends Component {
         event.preventDefault();
         console.log("dupa");
         this.setState({
-            authToken : true
+            isAuthenticated : true
         })
     };
 
@@ -42,7 +43,9 @@ class App extends Component {
                           <input className={"btn btn-success"} type="submit" value="Submit" />
                       </form>
                       <p className={"text-center mt-2"}>Testowe credentiale to Login -> "test", Password -> "test"</p>
-                      <Token token={this.state.authToken}/>
+                      <p className={"text-center"}>link do repo <a href={"https://github.com/adammendak/ReactLoginClient"}>tutaj</a> </p>
+                      <Token authToken={this.state.isAuthenticated}
+                             tokenValue={this.state.tokenValue}/>
                   </div>
               </div>
           </div>
