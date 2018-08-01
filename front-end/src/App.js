@@ -24,11 +24,15 @@ class App extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        if (event.target.login.value === "" || event.target.password.value === "") {
+            alert("pola nie moga byc puste");
+        } else {
         this.setState({
-            isAuthenticated : true,
+            isAuthenticated: true,
             login: event.target.login.value,
             password: event.target.password.value
         })
+        }
     };
 
     render() {
