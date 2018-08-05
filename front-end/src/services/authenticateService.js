@@ -15,7 +15,7 @@ function authenticate(login, password, isAuthenticated) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Allow-Control-Allow-Origin': '*'
-                },
+                }
             })  ;
             // .then(response => {
             //     response.text()
