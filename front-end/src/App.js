@@ -11,7 +11,7 @@ class App extends Component {
         super(props);
         this.state = {
             isAuthenticated: false,
-            tokenValue: "dopiero Bedzie",
+            tokenValue: "test",
             login: "",
             password: ""
         };
@@ -22,11 +22,11 @@ class App extends Component {
         if (event.target.login.value === "" || event.target.password.value === "") {
             alert("pola nie moga byc puste");
         } else {
-        this.setState({
-            isAuthenticated: true,
-             login: event.target.login.value,
-             password: event.target.password.value
-        });
+            this.setState({
+                isAuthenticated: true,
+                login: event.target.login.value,
+                password: event.target.password.value
+            });
         }
     };
 
