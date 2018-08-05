@@ -4,7 +4,10 @@ function authenticate(login, password, isAuthenticated) {
         console.log("in auth service");
         console.log("login: " + login + "password: " + password);
 
-        fetch("http://localhost:8080/api/test")
+        fetch("http://localhost:8080/api/test",
+            {
+                testMessage: "asd"
+            })
             .then(response => response.text())
             .then(response => console.log(response));
 
