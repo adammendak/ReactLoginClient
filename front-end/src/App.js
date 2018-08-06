@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Header from './components/header.js';
 import Token from './components/token.js';
 import LoginForm from './components/loginForm.js';
-import authenticate from './services/authenticateService.js';
 import './App.css';
+
 
 class App extends Component {
 
@@ -11,10 +11,34 @@ class App extends Component {
         super(props);
         this.state = {
             isAuthenticated: false,
-            tokenValue: "test",
+            tokenValue: "",
             login: "",
             password: ""
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.state.isAuthenticated === true && this.state.tokenValue === "") {
+
+            fetch("http://localhost:8080/auth/login",
+                {
+                    method : "POST",
+                    body: JSON.stringify({
+                        login: this.state.login,
+                        password: this.state.password
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Allow-Control-Allow-Origin': '*'
+                    }
+                }).then(response => {
+                this.setState({
+                    tokenValue : response.headers.get('Authentication').split(" ")[1]
+                });
+                }).catch(err => console.log(err));
+        }
+
     }
 
     handleSubmit = (event) => {
@@ -30,6 +54,22 @@ class App extends Component {
         }
     };
 
+    fetchUserData = () => {
+        fetch("http://localhost:8080/api/user/getInfo",
+            {
+                method : "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Allow-Control-Allow-Origin': '*',
+                    'Authorization': 'Bearer ' + this.state.tokenValue
+                }
+            }).then(response => {
+            console.log(response.text());
+            })
+            .catch(err => console.log(err));
+    };
+
     render() {
         return (
           <div className="App">
@@ -43,9 +83,7 @@ class App extends Component {
                       <p className={"text-center mt-3"}>link do repo backendu na gicie <a href={"https://github.com/adammendak/SpringBootAuthenticationServer"} target={"blank"}>tutaj</a> </p>
                       <Token authToken={this.state.isAuthenticated}
                              tokenValue={this.state.tokenValue}
-                             login={this.state.login}
-                             password={this.state.password}
-                             authenticate = {authenticate(this.state.login, this.state.password, this.state.isAuthenticated)}/>
+                             fetchUserData= {this.fetchUserData.bind(this)}/>
                   </div>
               </div>
           </div>
