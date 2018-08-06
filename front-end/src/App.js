@@ -13,7 +13,9 @@ class App extends Component {
             isAuthenticated: false,
             tokenValue: "",
             login: "",
-            password: ""
+            password: "",
+            loading: "",
+            response: ""
         };
     }
 
@@ -64,8 +66,12 @@ class App extends Component {
                     'Allow-Control-Allow-Origin': '*',
                     'Authorization': 'Bearer ' + this.state.tokenValue
                 }
-            }).then(response => {
-            console.log(response.text());
+            })
+            .then(response => {return response.json()})
+            .then(data => {
+                this.setState({
+                    response: "Login: " + data.login + " /HashPassword: " + data.password
+                });
             })
             .catch(err => console.log(err));
     };
@@ -83,6 +89,8 @@ class App extends Component {
                       <p className={"text-center mt-3"}>link do repo backendu na gicie <a href={"https://github.com/adammendak/SpringBootAuthenticationServer"} target={"blank"}>tutaj</a> </p>
                       <Token authToken={this.state.isAuthenticated}
                              tokenValue={this.state.tokenValue}
+                             loading={this.state.loading}
+                             response={this.state.response}
                              fetchUserData= {this.fetchUserData.bind(this)}/>
                   </div>
               </div>
