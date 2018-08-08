@@ -1,4 +1,5 @@
 import React from 'react';
+import spinner from '../spinner.png';
 
 class Token extends React.Component {
 
@@ -6,7 +7,10 @@ class Token extends React.Component {
     render() {
         if( this.props.authToken === true) {
             if (this.props.tokenValue === "") {
-                return <div>Loading...</div>
+                return <div>
+                    Loading...<br/>
+                    <img className={"spinnerImg"} src={spinner} alt={"loading spinner"}/>
+                </div>
             } else {
                 return <div className={"mt-5"}>
                     <h3>Token : {this.props.tokenValue.substr(0, 20).concat(" ... i tak dalej")}</h3>
