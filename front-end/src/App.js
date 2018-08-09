@@ -22,7 +22,8 @@ class App extends Component {
     componentDidUpdate(prevProps) {
         if(this.state.isAuthenticated === true && this.state.tokenValue === "") {
 
-            fetch("http://localhost:8080/auth/login",
+            // fetch("http://localhost:8080/auth/login",
+            fetch("https://authentication-adammendak.herokuapp.com/auth/login",
                 {
                     method : "POST",
                     body: JSON.stringify({
@@ -35,9 +36,18 @@ class App extends Component {
                         'Allow-Control-Allow-Origin': '*'
                     }
                 }).then(response => {
-                this.setState({
-                    tokenValue : response.headers.get('Authentication').split(" ")[1]
-                });
+                    if(response.ok) {
+                        this.setState({
+                            tokenValue : response.headers.get('Authentication').split(" ")[1]
+                        });
+                    } else {
+                        alert("wrong credentials !!!");
+                        this.setState({
+                            isAuthenticated: false,
+                            login: "",
+                            password: ""
+                        });
+                    }
                 }).catch(err => console.log(err));
         }
 
@@ -57,14 +67,15 @@ class App extends Component {
     };
 
     fetchUserData = () => {
-        fetch("http://localhost:8080/api/user/getInfo",
+        // fetch("http://localhost:8080/api/user/getInfo",
+        fetch("https://authentication-adammendak.herokuapp.com/api/user/getInfo",
             {
                 method : "GET",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Allow-Control-Allow-Origin': '*',
-                    'Authorization': 'Bearer ' + this.state.tokenValue
+                    'Authentication': 'Bearer ' + this.state.tokenValue
                 }
             })
             .then(response => {return response.json()})
@@ -86,6 +97,9 @@ class App extends Component {
                       <LoginForm handleSubmit = {this.handleSubmit.bind(this) }
                       />
                       <p className={"text-center mt-3"}>link do repo frontu na gicie <a href={"https://github.com/adammendak/ReactLoginClient"} target={"blank"}>tutaj</a> </p>
+                      <p> serwer backendowy stoi na heroku w chmurze, trzeba poczekac okolo 1 minuty po requescie zeby wstal i mozna testowac :)
+                          <a href={"https://authentication-adammendak.herokuapp.com/"} target={"blank"}> tutaj jest i on </a></p>
+                      <p> użytkownik testowy który działa to login: test password: test </p>
                       <p className={"text-center mt-3"}>link do repo backendu na gicie <a href={"https://github.com/adammendak/SpringBootAuthenticationServer"} target={"blank"}>tutaj</a> </p>
                       <Token authToken={this.state.isAuthenticated}
                              tokenValue={this.state.tokenValue}
