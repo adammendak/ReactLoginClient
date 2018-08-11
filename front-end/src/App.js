@@ -9,7 +9,7 @@ const DEV_LOGIN_URL =  "http://localhost:8080/auth/login";
 const PRODUCTION_GETINFO_URL = "https://authentication-adammendak.herokuapp.com/api/user/getInfo";
 const DEV_GETINFO_URL = "http://localhost:8080/api/user/getInfo";
 
-const isProduction = false;
+const isProduction = true;
 
 function getLoginUrl() {
         let url;
