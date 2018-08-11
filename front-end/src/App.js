@@ -4,6 +4,31 @@ import Token from './components/token.js';
 import LoginForm from './components/loginForm.js';
 import './App.css';
 
+const PRODUCTION_LOGIN_URL = "https://authentication-adammendak.herokuapp.com/auth/login";
+const DEV_LOGIN_URL =  "http://localhost:8080/auth/login";
+const PRODUCTION_GETINFO_URL = "https://authentication-adammendak.herokuapp.com/api/user/getInfo";
+const DEV_GETINFO_URL = "http://localhost:8080/api/user/getInfo";
+const isProduction = true;
+
+function getLoginUrl() {
+        let url;
+        if (isProduction === true) {
+            url = PRODUCTION_LOGIN_URL;
+        } else {
+            url = DEV_LOGIN_URL;
+        }
+        return url;
+}
+
+function getUserInfoUrl() {
+    let url;
+    if (isProduction === true) {
+        url = PRODUCTION_GETINFO_URL;
+    } else {
+        url = DEV_GETINFO_URL;
+    }
+    return url;
+}
 
 class App extends Component {
 
@@ -22,8 +47,7 @@ class App extends Component {
     componentDidUpdate(prevProps) {
         if(this.state.isAuthenticated === true && this.state.tokenValue === "") {
 
-            // fetch("http://localhost:8080/auth/login",
-            fetch("https://authentication-adammendak.herokuapp.com/auth/login",
+            fetch(getLoginUrl(),
                 {
                     method : "POST",
                     body: JSON.stringify({
@@ -67,8 +91,7 @@ class App extends Component {
     };
 
     fetchUserData = () => {
-        // fetch("http://localhost:8080/api/user/getInfo",
-        fetch("https://authentication-adammendak.herokuapp.com/api/user/getInfo",
+        fetch(getUserInfoUrl(),
             {
                 method : "GET",
                 headers: {
